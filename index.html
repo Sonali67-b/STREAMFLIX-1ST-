@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Management Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6f9;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    nav {
+      background: #121212;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: white;
+      padding: 12px 18px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      background: #141414;
+      border-radius: 5px;
+    }
+    section {
+      display: none;
+      padding: 20px;
+    }
+    section.active {
+      display: block;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    form {
+      margin: 15px 0;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      padding: 8px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #0c0c0c;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #171718;
+    }
+    footer {
+      background: #0c0c0c;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 20px;
+    }
+    /* Login Page */
+    #login {
+      display: block;
+      height: 100vh;
+      background: linear-gradient(to right, #f2f2f5, #f2f8f8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Page -->
+  <section id="login">
+    <div id="login-box">
+      <h2>🔐 Login</h2>
+      <input type="text" id="username" placeholder="Enter Username"><br>
+      <input type="password" id="password" placeholder="Enter Password"><br>
+      <button onclick="login()">Login</button>
+      <p id="login-error" style="color:red; display:none;">Invalid credentials!</p>
+    </div>
+  </section>
+
+  <!-- Portal -->
+  <header id="portal-header" style="display:none;">
+    <h1>🏫 School Management Portal</h1>
+    <p>Welcome, <span id="user-name"></span></p>
+  </header>
+
+  <nav id="portal-nav" style="display:none;">
+    <a href="#" onclick="showSection('dashboard')">Dashboard</a>
+    <a href="#" onclick="showSection('students')">Students</a>
+    <a href="#" onclick="showSection('teachers')">Teachers</a>
+    <a href="#" onclick="showSection('classes')">Classes</a>
+    <a href="#" onclick="showSection('results')">Results</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+
+  <!-- Dashboard -->
+  <section id="dashboard">
+    <h2>📊 Dashboard</h2>
+    <p>Quick stats of the school:</p>
+    <ul>
+      <li>Total Students: <span id="student-count">3</span></li>
+      <li>Total Teachers: <span id="teacher-count">3</span></li>
+      <li>Total Classes: 3</li>
+    </ul>
+  </section>
+
+  <!-- Students Section -->
+  <section id="students">
+    <h2>👩‍🎓 Manage Students</h2>
+    <form onsubmit="addStudent(event)">
+      <input type="text" id="studentName" placeholder="Student Name" required>
+      <input type="text" id="studentGrade" placeholder="Grade" required>
+      <button type="submit">Add Student</button>
+    </form>
+    <table id="studentTable">
+      <tr><th>ID</th><th>Name</th><th>Grade</th></tr>
+      <tr><td>101</td><td>Sona Sharma</td><td>10</td></tr>
+      <tr><td>102</td><td>Arjun Mehta</td><td>9</td></tr>
+      <tr><td>103</td><td>Priya Singh</td><td>12</td></tr>
+    </table>
+  </section>
+
+  <!-- Teachers Section -->
+  <section id="teachers">
+    <h2>👨‍🏫 Manage Teachers</h2>
+    <table id="teacherTable">
+      <tr><th>ID</th><th>Name</th><th>Subject</th></tr>
+      <tr><td>T01</td><td>Mr. Verma</td><td>Mathematics</td></tr>
+      <tr><td>T02</td><td>Mrs. Kapoor</td><td>Science</td></tr>
+      <tr><td>T03</td><td>Ms. Iyer</td><td>English</td></tr>
+    </table>
+  </section>
+
+  <!-- Classes Section -->
+  <section id="classes">
+    <h2>📚 Class Timetable</h2>
+    <table>
+      <tr><th>Class</th><th>Section</th><th>Class Teacher</th></tr>
+      <tr><td>10</td><td>A</td><td>Mr. Verma</td></tr>
+      <tr><td>9</td><td>B</td><td>Mrs. Kapoor</td></tr>
+      <tr><td>12</td><td>C</td><td>Ms. Iyer</td></tr>
+    </table>
+  </section>
+
+  <!-- Results Section -->
+  <section id="results">
+    <h2>📑 Results</h2>
+    <table>
+      <tr><th>Student</th><th>Subject</th><th>Marks</th><th>Grade</th></tr>
+      <tr><td>Sona Sharma</td><td>Math</td><td>92</td><td>A</td></tr>
+      <tr><td>Arjun Mehta</td><td>Science</td><td>76</td><td>B</td></tr>
+      <tr><td>Priya Singh</td><td>English</td><td>88</td><td>A</td></tr>
+    </table>
+  </section>
+
+  <footer id="portal-footer" style="display:none;">
+    <p>© 2025 School Management Portal | Designed with ❤️ in HTML</p>
+  </footer>
+
+  <script>
+    // Login System
+    function login() {
+      let user = document.getElementById("username").value;
+      let pass = document.getElementById("password").value;
+      if(user === "admin" && pass === "1234"){
+        document.getElementById("login").style.display = "none";
+        document.getElementById("portal-header").style.display = "block";
+        document.getElementById("portal-nav").style.display = "flex";
+        document.getElementById("portal-footer").style.display = "block";
+        document.getElementById("user-name").innerText = user;
+        showSection("dashboard");
+      } else {
+        document.getElementById("login-error").style.display = "block";
+      }
+    }
+    function logout(){
+      location.reload();
+    }
+
+    // Section Switch
+    function showSection(id) {
+      const sections = document.querySelectorAll("section");
+      sections.forEach(sec => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+
+    // Add Student
+    function addStudent(event) {
+      event.preventDefault();
+      let name = document.getElementById("studentName").value;
+      let grade = document.getElementById("studentGrade").value;
+      let table = document.getElementById("studentTable");
+      let newRow = table.insertRow(-1);
+
+
+
+      let idCell = newRow.insertCell(0);
+      let nameCell = newRow.insertCell(1);
+      let gradeCell = newRow.insertCell(2);
+
+      let newId = table.rows.length + 100;
+      idCell.innerHTML = newId;
+      nameCell.innerHTML = name;
+      gradeCell.innerHTML = grade;
+
+      document.getElementById("studentName").value = "";
+      document.getElementById("studentGrade").value = "";
+
+      document.getElementById("student-count").innerText = table.rows.length - 1;
+    }
+  </script>
+</body>
+</html>
